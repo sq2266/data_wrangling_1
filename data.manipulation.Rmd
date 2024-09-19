@@ -1,0 +1,92 @@
+---
+title: "Data Import"
+output: github_document
+---
+```{r echo = FALSE, message = FALSE}
+library(tidyverse)
+library(readxl)
+library(haven)
+```
+
+## Read some data
+
+This document will show how to import data.
+
+# Import the FAS data litters CSV
+
+```{r}
+litters_df = read_csv("data/FAS_litters.csv")
+litters_df = janitor::clean_names(litters_df)
+```
+
+
+## Take a look at the data
+
+printing in the console.
+
+```{r}
+litters_df
+```
+
+
+```{r}
+head(litters_df)
+```
+
+
+
+
+```{r}
+pups_df = read_csv("data/FAS_pups.csv")
+```
+
+```{r}
+litters_df = 
+  read_csv(
+      file = "data/FAS_litters.csv",
+      na = c(".","NA","")
+  )
+litters_df = janitor::clean_names(litters_df)
+```
+
+
+what is we code 'group' as a factor variable?
+
+```{r}
+litters_df = 
+read_csv(
+  file = "data/FAS_litters.csv",
+  na = c("NA","","."),
+  col_types = cols(
+    Group = col_factor ()
+  )
+)
+```
+
+## Import an excel 
+import MLB 2011 summary data.
+
+```{r}
+mlb_df = read_excel("data/mlb11.xlsx",sheet = "mlb11")
+```
+
+
+## import sas data
+
+```{r}
+pulse_df = read_sas("data/public_pulse_data.sas7bdat")
+pulse_df
+```
+
+## Never use read.csv()
+```{r}
+litter_df = read_csv("data/FAS_litters.csv")
+```
+
+
+##never do this 
+```{r}
+litter_df$L 
+```
+
+
