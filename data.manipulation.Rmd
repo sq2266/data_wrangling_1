@@ -1,5 +1,5 @@
 ---
-title: "Data Import"
+title: "Data Manipulation"
 output: github_document
 ---
 ```{r echo = FALSE, message = FALSE}
@@ -10,83 +10,80 @@ library(haven)
 
 ## Read some data
 
-This document will show how to import data.
+This document will show how to *manipulate* data.
 
-# Import the FAS data litters CSV
+Import the two datasets that we are going to manipulate.
 
 ```{r}
-litters_df = read_csv("data/FAS_litters.csv")
-litters_df = janitor::clean_names(litters_df)
+litter_df = 
+   read_csv("data/FAS_litters.csv", na = c("NA","", "."))
+
+litter_df = janitor::clean_names(litter_df)
+
+pups_df = 
+  read_csv("data/FAS_pups.csv", na = c("NA", "", "."))
 ```
 
 
-## Take a look at the data
-
-printing in the console.
+##'select'
+use 'select()' to select variable 
 
 ```{r}
-litters_df
+select(litter_df, group, litter_number, gd0_weight)
+
 ```
 
 
 ```{r}
-head(litters_df)
-```
-
-
-
-
-```{r}
-pups_df = read_csv("data/FAS_pups.csv")
+select(litter_df, group:gd18_weight)
 ```
 
 ```{r}
-litters_df = 
-  read_csv(
-      file = "data/FAS_litters.csv",
-      na = c(".","NA","")
-  )
-litters_df = janitor::clean_names(litters_df)
+select(litter_df, -pups_survive)
 ```
-
-
-what is we code 'group' as a factor variable?
 
 ```{r}
-litters_df = 
-read_csv(
-  file = "data/FAS_litters.csv",
-  na = c("NA","","."),
-  col_types = cols(
-    Group = col_factor ()
-  )
-)
+select(litter_df, starts_with("gd"))
+select(litter_df, contains("pups"))
 ```
-
-## Import an excel 
-import MLB 2011 summary data.
 
 ```{r}
-mlb_df = read_excel("data/mlb11.xlsx",sheet = "mlb11")
+select(litter_df, GROUP = group)
+
+rename(litter_df, GROUP = group)
+
+select(litter_df, litter_number, gd0_weight, everything())
+
+relocate(litter_df, litter_number, gd0_weight)
 ```
-
-
-## import sas data
 
 ```{r}
-pulse_df = read_sas("data/public_pulse_data.sas7bdat")
-pulse_df
-```
+select(pups_df, litter_number, sex, pd_ears)
 
-## Never use read.csv()
-```{r}
-litter_df = read_csv("data/FAS_litters.csv")
 ```
 
 
-##never do this 
-```{r}
-litter_df$L 
-```
+
+## 'filter'
+
+
+
+
+
+##'mutate'
+
+
+
+##arrange
+
+
+
+
+##piping
+
+
+
+
+
 
 
