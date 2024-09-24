@@ -14,6 +14,8 @@ pulse_df =
 This needs to go from wide to long format.
 
 ```{r}
+library(haven)
+library(tidyverse)
 pulse_tify_df = 
     pulse_df |>
     pivot_longer(
@@ -97,5 +99,41 @@ lotr_df =
     relocate(movie) |>
     mutate(race = str_to_lower(race))
               
+```
+
+## Join FAS dataset
+```{r}
+litter_df = 
+  read_csv("data/FAS_litters.csv", na=c("NA", ".","")) |>
+  janitor::clean_names() |>
+  mutate(
+    wt_gain = gd18_weight - gd0_weight
+  ) |>
+  separate(
+    group, into = c("does", "day_of_treatment"),sep = 3
+  )
+```
+
+import "pups"
+
+```{r}
+pups_df = 
+  read_csv("data/FAS_pups.csv", na=c("NA", ".","")) |>
+             janitor::clean_names() |>
+             mutate(
+               sex = case_match(
+                 sex, 
+                 1 ~ "male",
+                 2~"female"
+               )
+             )
+    
+```
+
+## join the dataset
+```{r}
+fas_df = 
+  left_join(pups_df, litter_df, by = "litter_number") |>
+  relocate(litter_number, does,day_of_treatment)
 ```
 
