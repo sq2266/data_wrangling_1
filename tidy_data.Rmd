@@ -87,14 +87,15 @@ return_king =
   mutate(movie = "return_king")
 
 lotr_df = 
-  bind_rows(fellowship_ring, two_towers, return_king)
+  bind_rows(fellowship_ring, two_towers, return_king) |>
   janitor::clean_names() |>
     pivot_longer(
       cols= female:male,
-      names_to = "sex",
+      names_to = "gender",
       values_to = "words"
     )|>
     relocate(movie) |>
-    mutatte(race = str_to_lower(race))
+    mutate(race = str_to_lower(race))
               
 ```
+
