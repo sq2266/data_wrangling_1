@@ -1,5 +1,7 @@
 this documnet will show how to tidy data.
 
+
+
 ## examples of pivot_longer
 ```{r}
 library(haven)
@@ -45,3 +47,16 @@ litters_df =
     )
 ```
 
+
+##pivot wider
+make analysis result table.
+
+```{r}
+analysis_df = 
+  tibble(
+    group = c("treatment", "treatment","control","control"),
+    time = c("pre","post","pre", "post"),
+    mean = c(4,10,4.2, 5)
+    
+  )
+```
